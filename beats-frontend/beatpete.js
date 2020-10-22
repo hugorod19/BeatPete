@@ -5,7 +5,7 @@
 function sequencer(){
     const kick = new Audio("./Drums/Kick/kick(1).wav")
     const eight = new Audio("./Drums/808/808(1).wav")
-    // const hat
+    const hat = new Audio("./Drums/Hat/hat(1).wav")
     const clap = new Audio("./Drums/Clap/clap(1).wav")
     // const snare
     // const sound1
@@ -18,7 +18,7 @@ function sequencer(){
     
 
     const bpm = parseInt(document.querySelector("#bpm").value)
-    Tone.Transport.bpm.value = bpm
+    Tone.Transport.bpm.value = 200
     
 
     function repeat(){
@@ -26,6 +26,7 @@ function sequencer(){
         let kickInputs = document.querySelector(`.kick input:nth-child(${step + 1})`);
         let clapInputs = document.querySelector(`.clap input:nth-child(${step + 1})`);
         let eightInputs = document.querySelector(`.eight input:nth-child(${step + 1})`);
+        let hatInputs = document.querySelector(`.hat input:nth-child(${step + 1})`);
 
             if(kickInputs.checked){
                 kick.play();
@@ -35,6 +36,9 @@ function sequencer(){
             }
             if(clapInputs.checked){
                 clap.play();
+            }
+            if(hatInputs.checked){
+                hat.play();
             }
 
             index++;
@@ -48,40 +52,75 @@ function sequencer(){
             Tone.Transport.pause()
     });
 }
+
 sequencer()
 
 
 let beatsUrl = "http://localhost:3000/beats"
 fetch(beatsUrl)
 .then(resp => resp.json())
-.then(function(beats) {
-    for(beat of beats) {
+.then(beatsData => loadBeat(beatsData))
+
+function loadBeat(beatsData){
+    const beatSelect = document.querySelector('#beatSelect')
+    const loadButton = document.querySelector('#loadBeatButton')
+
+    loadButton.addEventListener('click', () =>{
+       for(beat of beatsData){
+           if(beat.name === beatSelect.value){
+
+            let kickPattern = document.querySelector('.kick')
+            kickPattern.innerHTML = "kick"
+
+            let clapPattern = document.querySelector('.clap')
+            clapPattern.innerHTML = "clap"
+            
+            for(let i of beat.kicks) {
+                console.log(i)
+                let checkbox = document.createElement('input')
+                checkbox.type = "checkbox"
+                if(i === "1") {
+                    // console.log('we have a one')
+                    checkbox.checked = true
+                    kickPattern.append(checkbox)
+                } else if (i === "0") {
+                    // console.log('we have a zero')
+                    checkbox.checked = false
+                    kickPattern.append(checkbox)
+                }
+            }
+
+            for(let i of beat.snares) {
+                // console.log(i)
+                let checkbox = document.createElement('input')
+                checkbox.type = "checkbox"
+                if(i === "1") {
+                    console.log('we have a one')
+                    checkbox.checked = true
+                    clapPattern.append(checkbox)
+                } else if (i === "0") {
+                    console.log('we have a zero')
+                    checkbox.checked = false
+                    clapPattern.append(checkbox)
+                }
+    
+            }
+           }
+       }
+    })
+
+    for(beat of beatsData) {
+       console.log(beat)
         
-        const beatSelect = document.querySelector('#beatSelect')
+
         const beatFile = document.createElement('option')
         beatFile.innerHTML = beat.name
         beatSelect.append(beatFile)
 
-        let kickPattern = document.querySelector('.kick')
-        kickPattern.innerHTML = "kick"
-        
 
-        for(let i of beat.kicks) {
-            // console.log(i)
-            let checkbox = document.createElement('input')
-            checkbox.type = "checkbox"
-            if(i === "1") {
-                // console.log('we have a one')
-                checkbox.checked = true
-                kickPattern.append(checkbox)
-            } else if (i === "0") {
-                // console.log('we have a zero')
-                checkbox.checked = false
-                kickPattern.append(checkbox)
-            }
-        }
+    
     }
-})
+}
 
 
 
