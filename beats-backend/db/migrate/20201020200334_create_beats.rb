@@ -5,6 +5,7 @@ class CreateBeats < ActiveRecord::Migration[6.0]
       t.integer :user_id 
       t.json :kicks, default: []
       t.json :snares, default: []
+      t.json :claps, default: []
       t.timestamps
     end
   end

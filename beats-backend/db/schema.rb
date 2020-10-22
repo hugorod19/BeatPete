@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2020_10_20_200334) do
     t.integer "user_id"
     t.json "kicks", default: []
     t.json "snares", default: []
+    t.json "claps", default: []
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
