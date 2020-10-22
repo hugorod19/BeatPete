@@ -83,24 +83,7 @@ fetch(beatsUrl)
     }
 })
 
-fetch(beatsUrl, {
-  method: "POST",
-  headers: {
-      "Content-Type": "appplication/json",
-      "Accept": "application/json"
-  },
-  body: JSON.stringify({
-      name: name,
-      kicks: kicks,
-      snares: snares
-  })  
-})
-.then(function(response) {
-    return response.json();
-})
-.then(function(json) {
-    console.log(json)
-})
+
 
 
 
@@ -122,3 +105,43 @@ fetch(beatsUrl, {
 //         }
 //     }
 // })
+
+
+let buttonC = document.createElement("button")
+buttonC.innerText = "SaveBeat"
+let divv = document.querySelector("#a")
+divv.append(buttonC)
+
+buttonC.addEventListener("click", function() {
+
+    let kicks = document.querySelectorAll(".kick input")
+    let snares = document.querySelectorAll(".snare input")
+    let claps = document.querySelectorAll(".clap input")
+     createBeat (name, kicks, snares, claps)
+})
+
+function createBeat (name, kicks = [], snares = [], claps = []) {
+    
+
+
+    fetch("http://localhost:3000/beats", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    },
+    body: JSON.stringify({
+        name: name,
+        kicks: kicks,
+        snares: snares,
+        claps: claps 
+    })
+})
+.then(function(response) {
+    return response.json()
+}) 
+.then(function(json) {
+    console.log(json)
+})
+}
+
