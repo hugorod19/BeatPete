@@ -18,7 +18,7 @@ function sequencer(){
     
 
     const bpm = parseInt(document.querySelector("#bpm").value)
-    Tone.Transport.bpm.value = 200
+    Tone.Transport.bpm.value = 180
     
 
     function repeat(){
@@ -111,14 +111,11 @@ function loadBeat(beatsData){
 
     for(beat of beatsData) {
        console.log(beat)
-        
 
         const beatFile = document.createElement('option')
         beatFile.innerHTML = beat.name
         beatSelect.append(beatFile)
 
-
-    
     }
 }
 
