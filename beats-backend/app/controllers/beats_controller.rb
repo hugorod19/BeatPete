@@ -7,8 +7,9 @@ class BeatsController < ApplicationController
         beat = Beat.new(
             name: params[:name], 
             kicks: params[:kicks], 
-            snares: params[:snares],
-            claps: params[:claps]
+            eight: params[:eight],
+            claps: params[:claps],
+            hats: params[:hats]
         )
         beat.save
         render json: beat 
