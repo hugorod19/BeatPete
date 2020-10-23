@@ -18,7 +18,7 @@ function sequencer(){
     
 
     const bpm = parseInt(document.querySelector("#bpm").value)
-    Tone.Transport.bpm.value = 200
+    Tone.Transport.bpm.value = 150
     
 
     function repeat(){
@@ -90,7 +90,7 @@ function loadBeat(beatsData){
                 }
             }
 
-            for(let i of beat.snares) {
+            for(let i of beat.claps) {
                 // console.log(i)
                 let checkbox = document.createElement('input')
                 checkbox.type = "checkbox"
@@ -111,14 +111,11 @@ function loadBeat(beatsData){
 
     for(beat of beatsData) {
        console.log(beat)
-        
 
         const beatFile = document.createElement('option')
         beatFile.innerHTML = beat.name
         beatSelect.append(beatFile)
 
-
-    
     }
 }
 
@@ -151,18 +148,15 @@ buttonC.innerText = "SaveBeat"
 let divv = document.querySelector("#a")
 divv.append(buttonC)
 
+const bn = document.querySelector("#beatName")
+
+
 buttonC.addEventListener("click", function() {
-
-    let kicks = document.querySelectorAll(".kick input")
-    let snares = document.querySelectorAll(".snare input")
-    let claps = document.querySelectorAll(".clap input")
-     createBeat (name, kicks, snares, claps)
-})
-
-function createBeat (name, kicks = [], snares = [], claps = []) {
-    
-
-
+    checker(boxKick),
+    checker(boxEight),
+    checker(boxHat),
+    checker(boxClap),
+    console.log(beatName.value)
     fetch("http://localhost:3000/beats", {
     method: "POST",
     headers: {
@@ -170,17 +164,105 @@ function createBeat (name, kicks = [], snares = [], claps = []) {
         "Accept": "application/json"
     },
     body: JSON.stringify({
-        name: name,
-        kicks: kicks,
-        snares: snares,
-        claps: claps 
+        name: beatName.value,
+        kicks: kickArray,
+        eight: eightArray,
+        claps: clapArray,
+        hats: hatArray
+        })
     })
-})
-.then(function(response) {
-    return response.json()
-}) 
-.then(function(json) {
-    console.log(json)
-})
-}
+    .then(function(response) {
+        return response.json()
+    }) 
+    .then(function(json) {
+        console.log(json)
+    })
 
+    // let kicks = document.querySelectorAll(".kick input")
+    // let eight = document.querySelectorAll(".eight input")
+    // let claps = document.querySelectorAll(".clap input")
+    // let hats = document.querySelectorAll(".hat input")
+    //  createBeat (name, kicks, eight, claps, hats)
+})
+
+// function createBeat (name, kicks, eight, claps, hats) {
+    
+
+
+    
+
+// }
+
+let boxKick = document.querySelectorAll('#kickBox')
+let boxEight = document.querySelectorAll('#eightBox')
+let boxHat = document.querySelectorAll('#hatBox')
+let boxClap = document.querySelectorAll('#clapBox')
+
+// let checkButton = document.createElement('button')
+// divv.append(checkButton)
+
+// checkButton.addEventListener('click', () => {
+
+// })
+
+const kickArray = []
+const eightArray = []
+const hatArray = []
+const clapArray =[]
+
+function checker(list){
+    console.log(list)
+   for(box of list){
+    if(list[0].id == 'kickBox'){
+        if(box.checked === true) {
+            console.log('1')
+            kickArray.push("1")
+            // checkbox.checked = true
+            // clapPattern.append(checkbox)
+        } else {
+            console.log('0')
+            kickArray.push("0")
+            // checkbox.checked = false
+            // clapPattern.append(checkbox)
+        } 
+    } else if(list[0].id == 'eightBox'){
+        if(box.checked === true) {
+            console.log('1')
+            eightArray.push("1")
+            // checkbox.checked = true
+            // clapPattern.append(checkbox)
+        } else {
+            console.log('0')
+            eightArray.push("0")
+            // checkbox.checked = false
+            // clapPattern.append(checkbox)
+        } 
+    } else if(list[0].id == 'hatBox'){
+        if(box.checked === true) {
+            console.log('1')
+            hatArray.push("1")
+            // checkbox.checked = true
+            // clapPattern.append(checkbox)
+        } else {
+            console.log('0')
+            hatArray.push("0")
+            // checkbox.checked = false
+            // clapPattern.append(checkbox)
+        } 
+    } else if(list[0].id == 'clapBox'){
+        if(box.checked === true) {
+            console.log('1')
+            clapArray.push("1")
+            // checkbox.checked = true
+            // clapPattern.append(checkbox)
+        } else {
+            console.log('0')
+            clapArray.push("0")
+            // checkbox.checked = false
+            // clapPattern.append(checkbox)
+        } 
+    }
+
+    
+   }
+}
